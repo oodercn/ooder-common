@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>ooder-index-web</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ooder</groupId>
     <parent>
         <groupId>net.ooder</groupId>
         <artifactId>ooder-common</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
 
 
@@ -17,13 +17,13 @@
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-common-client</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-org-web</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>

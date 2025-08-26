@@ -4,21 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ooder-database</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <groupId>net.ooder</groupId>
 
     <parent>
         <groupId>net.ooder</groupId>
         <artifactId>ooder-common</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-common-client</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
 

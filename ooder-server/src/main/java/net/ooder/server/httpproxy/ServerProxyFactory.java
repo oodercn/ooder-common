@@ -43,7 +43,7 @@ public class ServerProxyFactory {
     public static final String[] CDNUrlfilter = new String[]{".*alicdn.com//?.*"};
 
 
-    public static final String[] RADUrlfilter = new String[]{".*/(public|custom|RAD|plugins|xui|root|debug|jds|vfs)//?.*", ".*?/.*\\.(dyn|cls)$"};
+    public static final String[] RADUrlfilter = new String[]{".*/(public|custom|RAD|plugins|ood|root|debug|jds|vfs)//?.*", ".*?/.*\\.(dyn|cls)$"};
 
 
     public static final String[] localUrlfilte = new String[]{".*/favicon.ico"};

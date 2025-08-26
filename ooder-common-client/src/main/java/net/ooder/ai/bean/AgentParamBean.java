@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 /**
  * AgentParam注解实体映射对象
- * 符合onecode bean规范，用于运行时存储@AgentParam注解的元数据
+ * 符合 ooder bean规范，用于运行时存储@AgentParam注解的元数据
  */
 public class AgentParamBean implements Serializable {
     private static final long serialVersionUID = 1L;

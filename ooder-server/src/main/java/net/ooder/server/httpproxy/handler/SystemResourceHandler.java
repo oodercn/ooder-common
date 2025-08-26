@@ -49,7 +49,7 @@ public class SystemResourceHandler extends AbstractHandler implements Handler {
 
         File file = new File(JDSUtil.getJdsRealPath() + resource);
         if (!file.exists()) {
-            file = new File(JDSUtil.getJdsRealPath() + "xui/" + resource);
+            file = new File(JDSUtil.getJdsRealPath() + "ood/" + resource);
         }
 
         if (mimeType == null) {

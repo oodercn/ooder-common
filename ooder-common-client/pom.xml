@@ -5,24 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ooder-common-client</artifactId>
     <groupId>net.ooder</groupId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 
     <parent>
         <groupId>net.ooder</groupId>
         <artifactId>ooder-common</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
 
-
     <dependencies>
-
-
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-annotation</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
-
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
@@ -34,24 +30,20 @@
             <artifactId>freemarker</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
-
         </dependency>
 
 
         <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
-
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-
         </dependency>
 
         <dependency>
@@ -62,9 +54,7 @@
         <dependency>
             <groupId>org.mvel</groupId>
             <artifactId>mvel2</artifactId>
-
         </dependency>
-
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -84,17 +74,11 @@
         <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
-
         </dependency>
-
-
-
 
         <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-
-
         </dependency>
 
     </dependencies>

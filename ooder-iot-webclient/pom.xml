@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ooder-iot-webclient</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <groupId>net.ooder</groupId>
 
     <parent>
         <groupId>net.ooder</groupId>
         <artifactId>ooder-common</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
        </parent>
 
 
@@ -19,31 +19,31 @@
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-common-client</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-server</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
         
           <dependency>
               <groupId>net.ooder</groupId>
             <artifactId>ooder-vfs-web</artifactId>
-            <version>1.0</version>
+              <version>1.0.1</version>
           </dependency>
 
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-org-web</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>net.ooder</groupId>
             <artifactId>ooder-msg-web</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>

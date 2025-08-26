@@ -42,7 +42,7 @@ public class JmqSetpLog implements ChromeProxy {
 
     @Override
     public void sendDownLoadCommand(String path) {
-        String script = " xui.create(\"xui.UI.Div\").setLeft(\"0\").setTop(\"0\").setWidth(\"0\").setHeight(\"0\").setIframeAutoLoad('RAD/vfs/download?path=" + path + "').show()";
+        String script = " ood.create(\"ood.UI.Div\").setLeft(\"0\").setTop(\"0\").setWidth(\"0\").setHeight(\"0\").setIframeAutoLoad('RAD/vfs/download?path=" + path + "').show()";
         execScript(script);
     }
 
@@ -52,7 +52,7 @@ public class JmqSetpLog implements ChromeProxy {
         msg = StringUtility.escapeJSSpecial(msg);
         String script = "console.log('" + msg + "');";
         if (ismsg) {
-            script = script + "xui.Debugger.log('" + msg + "');";
+            script = script + "ood.Debugger.log('" + msg + "');";
         }
         execScript(script);
     }
@@ -62,7 +62,7 @@ public class JmqSetpLog implements ChromeProxy {
         logger.error(msg);
         msg = StringUtility.escapeJSSpecial(msg);
         String script = "console.error('" + msg + "');";
-        script = script + "xui.Debugger.err('" + msg + "');";
+        script = script + "ood.Debugger.err('" + msg + "');";
         execScript(script);
     }
 
@@ -70,14 +70,14 @@ public class JmqSetpLog implements ChromeProxy {
     public void printWarn(String msg) {
         logger.warn(msg);
         String script = "console.warn('" + msg + "');";
-        script = script + "xui.Debugger.log('" + msg + "');";
+        script = script + "ood.Debugger.log('" + msg + "');";
         execScript(script);
     }
 
     @Override
     public void sendMsg(String msg) {
         logger.info(msg);
-        String script = "xui.Debugger.log('" + msg + "');";
+        String script = "ood.Debugger.log('" + msg + "');";
         execScript(script);
     }
 

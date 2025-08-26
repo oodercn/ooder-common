@@ -30,7 +30,7 @@ import java.util.List;
  * Title: ooder组织机构中间件
  * </p>
  * <p>
- * Description: 3.0 新增总线注入方法
+ * Description: 1.0 新增总线注入方法
  * </p>
  * <p>
  * </p>

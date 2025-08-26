@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * 自然语言处理AI Agent示例
- * 完整展示onecode 3.0注解驱动架构在AI服务模块的应用 */
+ * 完整展示 ooder 1.0注解驱动架构在AI服务模块的应用 */
 @Agent(
     id = "nlp-agent-001",
     name = "通用自然语言处理Agent",

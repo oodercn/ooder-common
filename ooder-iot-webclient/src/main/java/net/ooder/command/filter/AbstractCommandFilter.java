@@ -23,7 +23,7 @@ import java.util.List;
  * </p>
  * 
  * @author wenzhang li
- * @version 3.0
+ * @version 1.0
  */
 public abstract class AbstractCommandFilter implements CommandFilter {
 
