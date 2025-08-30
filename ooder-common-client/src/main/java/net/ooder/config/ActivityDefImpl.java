@@ -19,23 +19,23 @@ import net.ooder.annotation.IconEnumstype;
 
 public enum ActivityDefImpl implements IconEnumstype {
 
-    No( "人工活动","spafont spa-icon-login"),
+    No( "人工活动","fa-solid fa-user"),
 
-    Tool("自动任务","spafont spa-icon-options"),
+    Tool("自动任务","fa-solid fa-cog"),
 
-    Device( "设备节点","spafont spa-icon-phonegap"),
+    Device( "设备节点","fa-solid fa-mobile"),
 
-    Service("服务节点","spafont spa-icon-conf"),
+    Service("服务节点","fa-solid fa-server"),
 
-    Block( "场景服务","spafont spa-icon-c-video"),
+    Block( "场景服务","fa-solid fa-film"),
 
-    Event("设备事件","spafont spa-icon-event"),
+    Event("设备事件","fa-solid fa-bell"),
 
-    SubFlow( "子流程","spafont spa-icon-editpath"),
+    SubFlow( "子流程","fa-solid fa-sitemap"),
 
-    OutFlow("外部流程","spafont spa-icon-newprj"),
+    OutFlow("外部流程","fa-solid fa-external-link"),
 
-    Process("默认流程","spafont spa-icon-c-databinder");
+    Process("默认流程","fa-solid fa-tasks");
 
 
     private final String name;
