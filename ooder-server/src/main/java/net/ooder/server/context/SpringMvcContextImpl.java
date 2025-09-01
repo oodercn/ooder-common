@@ -36,27 +36,9 @@ public class SpringMvcContextImpl extends JDSActionContext {
     public OgnlContext getOgnlContext() {
         HttpServletRequest request = (HttpServletRequest) this.getHttpRequest();
         if (ognlContext == null && request != null) {
-
-            Map<String, Object> valueMap = new HashMap();
-            Map<String, String[]> httpVariableMap = request.getParameterMap();
-            if (httpVariableMap != null) {
-                Set<String> keSet = httpVariableMap.keySet();
-                for (String key : keSet) {
-                    String[] objects = httpVariableMap.get(key);
-                    if (objects != null) {
-                        if (objects.length == 1) {
-                            valueMap.put(key, objects[0]);
-                        } else {
-                            valueMap.put(key, objects);
-                        }
-                    }
-                }
-            }
-            if (this.getSession() != null) {
-                valueMap.putAll(this.getSession());
-            }
+            Map<String, Object> objectMap = this.getContext();
             OgnlRuntime.clearCache();
-            ognlContext = new OgnlContext(OgnlValueStack.getAccessor(), JDSConverter.getInstance(), null, valueMap);
+            ognlContext = new OgnlContext(OgnlValueStack.getAccessor(), JDSConverter.getInstance(), null, objectMap);
 
         }
         return ognlContext;
@@ -79,7 +61,23 @@ public class SpringMvcContextImpl extends JDSActionContext {
         if (RequestContextHolder.getRequestAttributes() != null) {
             final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes()).getRequest();
-            contextMap.putAll(request.getParameterMap());
+            Map<String, String[]> httpVariableMap = request.getParameterMap();
+            if (httpVariableMap != null) {
+                Set<String> keSet = httpVariableMap.keySet();
+                for (String key : keSet) {
+                    String[] objects = httpVariableMap.get(key);
+                    if (objects != null) {
+                        if (objects.length == 1) {
+                            contextMap.put(key, objects[0]);
+                        } else {
+                            contextMap.put(key, objects);
+                        }
+                    }
+                }
+            }
+            if (this.getSession() != null) {
+                contextMap.putAll(this.getSession());
+            }
         }
         return contextMap;
     }
