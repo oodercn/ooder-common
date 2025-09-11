@@ -5,9 +5,9 @@
 	<common>
 		<log>
 			<logFactory>
-				com.ds.common.logging.impl.LogFactoryImpl
+				net.ooder.common.logging.impl.LogFactoryImpl
 			</logFactory>
-			<logger>com.ds.common.logging.impl.SimpleLog</logger>
+			<logger>net.ooder.common.logging.impl.SimpleLog</logger>
 		</log>
 	</common>
 
