@@ -15,6 +15,7 @@
 package net.ooder.web;
 
 import net.ooder.annotation.*;
+import net.ooder.esd.annotation.CustomAction;
 import net.ooder.web.util.AnnotationUtil;
 
 import java.util.Arrays;
@@ -32,6 +33,8 @@ public class AggregationBean implements CustomBean {
     AggregationType type;
 
     Set<UserSpace> userSpace;
+
+    Set<Class<? extends CustomAction>> implActions;
 
     Class entityClass;
 
@@ -54,6 +57,13 @@ public class AggregationBean implements CustomBean {
         userSpace.addAll(Arrays.asList(spaces));
     }
 
+    public Set<Class<? extends CustomAction>> getImplActions() {
+        return implActions;
+    }
+
+    public void setImplActions(Set<Class<? extends CustomAction>> implActions) {
+        this.implActions = implActions;
+    }
 
     public Set<UserSpace> getUserSpace() {
         return userSpace;
