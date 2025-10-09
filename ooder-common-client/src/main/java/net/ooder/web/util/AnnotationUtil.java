@@ -19,6 +19,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.util.TypeUtils;
+import javassist.CtClass;
+import javassist.CtMethod;
 import net.ooder.annotation.AnnotationType;
 import net.ooder.annotation.CustomBean;
 import net.ooder.annotation.NotNull;
@@ -31,8 +33,6 @@ import net.ooder.config.ListResultModel;
 import net.ooder.config.ResultModel;
 import net.ooder.config.TreeListResultModel;
 import net.ooder.jds.core.esb.util.OgnlUtil;
-import javassist.CtClass;
-import javassist.CtMethod;
 import net.sf.cglib.beans.BeanMap;
 
 import java.io.Serializable;
@@ -82,6 +82,31 @@ public class AnnotationUtil {
 
 
         return annMap;
+    }
+
+
+    //原生扩展
+    public static <T extends Annotation> T[] getMethodAnnotations(Method method, Class<T> annotationClass) {
+        Class clazz = method.getDeclaringClass();
+        T[] annotation = method.getAnnotationsByType(annotationClass);
+        if (annotation == null) {
+            Class[] insClasses = clazz.getInterfaces();
+            for (Class insClass : insClasses) {
+
+                if (!isInnerClass(insClass)) {
+                    try {
+                        insClass = ClassUtility.loadClass(insClass.getName());
+                        Method sMethod = MethodUtil.getEqualMethod(insClass, method);
+                        if (sMethod != null && sMethod.getAnnotationsByType(annotationClass) != null) {
+                            return sMethod.getAnnotationsByType(annotationClass);
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return annotation;
     }
 
 
