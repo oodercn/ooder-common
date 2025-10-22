@@ -7,6 +7,45 @@
  * <p>
  * This software is the proprietary information of spk, Inc.
  * Use is subject to license terms.
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
  */
 /**
  * $RCSfile: ClassUtility.java,v $
@@ -24,6 +63,7 @@
  */
 package net.ooder.common.util;
 
+import net.ooder.annotation.Debug;
 import net.ooder.common.util.java.DynamicClassLoader;
 import net.ooder.common.util.java.TmpJavaFileObject;
 import net.ooder.esb.config.manager.EsbBeanFactory;
@@ -47,6 +87,8 @@ public final class ClassUtility {
 
     public static Set<String> disableClass = new HashSet<>();
 
+    public static Set<String> debugClass = new HashSet<>();
+
     public static Map<String, Class<?>> fileClassMap = new ConcurrentHashMap<>();
 
     private static Map<String, JavaFileObject> fileObjectMap = new ConcurrentHashMap<>();
@@ -60,6 +102,23 @@ public final class ClassUtility {
      */
 
     private ClassUtility() {
+    }
+
+    public static boolean isDebug(String className) {
+        try {
+            if (!debugClass.contains(className) && !disableClass.contains(className)) {
+                Class clazz = ClassUtility.loadClass(className);
+                Debug debug = (Debug) clazz.getAnnotation(Debug.class);
+                if (debug != null) {
+                    debugClass.add(className);
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            disableClass.add(className);
+        }
+        return true;
+
     }
 
 

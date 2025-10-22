@@ -14,7 +14,7 @@
  */
 package net.ooder.esb.util;
 
-public class Debug {
+public class DebugRun {
 	String name;
 	long startTime;
 	long endTime;
