@@ -43,6 +43,7 @@ public class CtCacheManager implements Serializable {
     private static CtCacheManager instance;
     public static final String THREAD_LOCK = "Thread Lock";
     private static final Log log = LogFactory.getLog(OrgConstants.CONFIG_KEY.getType(), CtCacheManager.class);
+    private static final String localDiskPath = StringUtility.replace(new File("").getAbsolutePath(), "\\", "/");
 
     public static CtCacheManager getInstance() {
         if (instance == null) {
@@ -1599,12 +1600,14 @@ public class CtCacheManager implements Serializable {
         MD5InputStream md5input = null;
         synchronized (paths) {
             //优先本地文件处理
-            File tempFile = new File(paths);
-            if (tempFile.exists() && tempFile.isFile() && tempFile.length() > 0) {
-                try {
-                    return new MD5InputStream(new FileInputStream(tempFile));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+            if (paths.startsWith(StringUtility.replace(new File("").getAbsolutePath(), "\\", "/"))) {
+                File tempFile = new File(paths);
+                if (tempFile.exists() && tempFile.isFile() && tempFile.length() > 0) {
+                    try {
+                        return new MD5InputStream(new FileInputStream(tempFile));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -1702,6 +1705,8 @@ public class CtCacheManager implements Serializable {
 
 
     public StringBuffer readFileAsString(String path, String encoding) throws JDSException {
+
+
         StringBuffer buffer = new StringBuffer();
         InputStream stream = null;
         try {
@@ -1873,24 +1878,30 @@ public class CtCacheManager implements Serializable {
             String[] filePaths = versionpath.split(VFSConstants.URLVERSION);
             filePath = filePaths[0];
         }
+
+
         FileInfo fileInfo = this.getFileByPath(versionpath);
         if (fileInfo == null) {
             fileInfo = this.createFile(filePath);
         }
+
 
         if (fileInfo != null) {
             if (encoding == null) {
                 encoding = VFSConstants.Default_Encoding;
             }
             try {
-                File temp = File.createTempFile("" + System.currentTimeMillis(), ".temp");
-                InputStream input = new ByteArrayInputStream(content.getBytes(encoding));
-                FileOutputStream output = new FileOutputStream(temp);
-                IOUtility.copy(input, output);
-                IOUtility.shutdownStream(input);
-                IOUtility.shutdownStream(output);
-                upload(versionpath, new MD5InputStream(new FileInputStream(temp)), personId);
-
+                if (filePath.startsWith(StringUtility.replace(new File("").getAbsolutePath(), "\\", "/"))) {
+                    IOUtility.writeBytesToNewFile(content.getBytes(encoding), new File(filePath));
+                } else {
+                    File temp = File.createTempFile("" + System.currentTimeMillis(), ".temp");
+                    InputStream input = new ByteArrayInputStream(content.getBytes(encoding));
+                    FileOutputStream output = new FileOutputStream(temp);
+                    IOUtility.copy(input, output);
+                    IOUtility.shutdownStream(input);
+                    IOUtility.shutdownStream(output);
+                    upload(versionpath, new MD5InputStream(new FileInputStream(temp)), personId);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new JDSException(e);
