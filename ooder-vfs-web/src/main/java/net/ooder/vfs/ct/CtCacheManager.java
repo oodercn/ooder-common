@@ -1,34 +1,34 @@
-package  net.ooder.vfs.ct;
+package net.ooder.vfs.ct;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import  net.ooder.common.FolderState;
-import  net.ooder.common.FolderType;
-import  net.ooder.common.JDSException;
-import  net.ooder.common.cache.Cache;
-import  net.ooder.common.cache.CacheManagerFactory;
-import  net.ooder.common.logging.Log;
-import  net.ooder.common.logging.LogFactory;
-import  net.ooder.common.md5.MD5;
-import  net.ooder.common.md5.MD5InputStream;
-import  net.ooder.common.util.CnToSpell;
-import  net.ooder.common.util.IOUtility;
-import  net.ooder.common.util.StringUtility;
-import  net.ooder.config.JDSConfig;
-import  net.ooder.context.JDSActionContext;
-import  net.ooder.context.JDSContext;
-import  net.ooder.hsql.HsqlDbCacheManager;
-import  net.ooder.jds.core.esb.EsbUtil;
-import  net.ooder.org.conf.OrgConstants;
-import  net.ooder.server.context.MinServerActionContextImpl;
-import  net.ooder.vfs.*;
-import  net.ooder.vfs.bigfile.BigFileTools;
-import  net.ooder.vfs.bigfile.BigFileUtil;
-import  net.ooder.vfs.service.VFSClientService;
-import  net.ooder.vfs.service.VFSDiskService;
-import  net.ooder.vfs.service.VFSStoreService;
-import  net.ooder.web.LocalMultipartFile;
-import  net.ooder.web.RemoteConnectionManager;
+import net.ooder.common.FolderState;
+import net.ooder.common.FolderType;
+import net.ooder.common.JDSException;
+import net.ooder.common.cache.Cache;
+import net.ooder.common.cache.CacheManagerFactory;
+import net.ooder.common.logging.Log;
+import net.ooder.common.logging.LogFactory;
+import net.ooder.common.md5.MD5;
+import net.ooder.common.md5.MD5InputStream;
+import net.ooder.common.util.CnToSpell;
+import net.ooder.common.util.IOUtility;
+import net.ooder.common.util.StringUtility;
+import net.ooder.config.JDSConfig;
+import net.ooder.context.JDSActionContext;
+import net.ooder.context.JDSContext;
+import net.ooder.hsql.HsqlDbCacheManager;
+import net.ooder.jds.core.esb.EsbUtil;
+import net.ooder.org.conf.OrgConstants;
+import net.ooder.server.context.MinServerActionContextImpl;
+import net.ooder.vfs.*;
+import net.ooder.vfs.bigfile.BigFileTools;
+import net.ooder.vfs.bigfile.BigFileUtil;
+import net.ooder.vfs.service.VFSClientService;
+import net.ooder.vfs.service.VFSDiskService;
+import net.ooder.vfs.service.VFSStoreService;
+import net.ooder.web.LocalMultipartFile;
+import net.ooder.web.RemoteConnectionManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.concurrent.FutureCallback;
 
@@ -1598,6 +1598,16 @@ public class CtCacheManager implements Serializable {
     public MD5InputStream downLoad(String paths) throws JDSException {
         MD5InputStream md5input = null;
         synchronized (paths) {
+            //优先本地文件处理
+            File tempFile = new File(paths);
+            if (tempFile.exists() && tempFile.isFile() && tempFile.length() > 0) {
+                try {
+                    return new MD5InputStream(new FileInputStream(tempFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
             FileVersion version = this.getFileVersionByPath(paths);
             if (version == null) {
                 throw new JDSException("paths error! not frond file!");
