@@ -14,7 +14,6 @@
  */
 package net.ooder.config;
 
-import net.ooder.common.util.ClassUtility;
 import net.ooder.common.util.StringUtility;
 
 import javax.swing.*;
@@ -32,7 +31,8 @@ public class JDSUtil {
         return getJdsPath(null);
     }
 
-    public static String getJdsPath(Class clazz) throws MalformedURLException, IOException {
+
+    public static String getJdsPath(Class clazz) throws IOException {
         if (clazz == null) {
             clazz = getDefaultClazz();
         }
@@ -45,7 +45,7 @@ public class JDSUtil {
     private static Class getDefaultClazz() {
         Class clazz = null;
         try {
-            clazz = ClassUtility.loadClass("net.ooder.JDSInit");
+            clazz = Class.forName("net.ooder.JDSInit");
         } catch (ClassNotFoundException e) {
             clazz = JDSUtil.class;
         }

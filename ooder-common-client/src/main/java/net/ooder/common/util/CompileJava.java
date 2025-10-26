@@ -15,14 +15,14 @@
 package net.ooder.common.util;
 
 import com.alibaba.fastjson.util.TypeUtils;
+import javassist.ByteArrayClassPath;
+import javassist.ClassPool;
 import net.ooder.common.logging.ChromeProxy;
 import net.ooder.common.util.java.DynamicClassLoader;
 import net.ooder.common.util.java.TmpJavaFileManager;
 import net.ooder.common.util.java.TmpJavaFileObject;
 import net.ooder.config.JDSConfig;
 import net.ooder.config.JDSUtil;
-import javassist.ByteArrayClassPath;
-import javassist.ClassPool;
 
 import javax.tools.*;
 import java.io.File;
@@ -32,6 +32,30 @@ import java.util.*;
 
 public class CompileJava {
 
+
+    public static boolean isDebug() {
+        boolean debug = false;
+        try {
+            String path = JDSUtil.getJdsRealPath();
+            if (path.indexOf("target") > -1) {
+                debug = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return debug;
+
+    }
+
+    public static String getDebugLibPath() throws IOException {
+        String libPath = JDSUtil.getJdsRealPath() + "lib";
+        return libPath;
+    }
+
+    public static String getDebugClassPath() throws IOException {
+        String classPath = JDSUtil.getJdsRealPath() + "classes";
+        return classPath;
+    }
 
     public static boolean compile(Set<File> list, Set<String> libPaths, Set<String> classPaths, ChromeProxy log) throws IOException {
         boolean compile = true;

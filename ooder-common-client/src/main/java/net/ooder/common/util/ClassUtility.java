@@ -46,6 +46,97 @@
  * <p>
  * License: MIT License
  * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
  */
 /**
  * $RCSfile: ClassUtility.java,v $
@@ -79,6 +170,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class ClassUtility {
 
+
     private static ClassUtility instance = new ClassUtility();
 
     public static Map<String, Class<?>> dynClassMap = new ConcurrentHashMap<>();
@@ -97,16 +189,18 @@ public final class ClassUtility {
 
     private static final Logger logger = LoggerFactory.getLogger(ClassUtility.class);
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    private static final String InitClassName = "net.ooder.JDSInit";
+
 
     private ClassUtility() {
+
     }
 
     public static boolean isDebug(String className) {
         try {
-            if (!debugClass.contains(className) && !disableClass.contains(className)) {
+            if (debugClass.contains(className)) {
+                return true;
+            } else if (!disableClass.contains(className)) {
                 Class clazz = ClassUtility.loadClass(className);
                 Debug debug = (Debug) clazz.getAnnotation(Debug.class);
                 if (debug != null) {
@@ -117,7 +211,7 @@ public final class ClassUtility {
         } catch (Exception e) {
             disableClass.add(className);
         }
-        return true;
+        return false;
 
     }
 
@@ -173,39 +267,99 @@ public final class ClassUtility {
         } else if (className.equals("boolean")) {
             return boolean.class;
         }
+        Class theClass = null;
 
-        Class theClass = fileClassMap.get(className);
 
-        if (theClass == null) {
-            theClass = dynClassMap.get(className);
-            TmpJavaFileObject fileObject = (TmpJavaFileObject) fileObjectMap.get(className);
-            if (fileObject != null) {
-                if (theClass == null) {
-                    DynamicClassLoader loader = getDynamicClassLoader(className, fileObject, false);
-                    try {
-                        theClass = loader.findClass(className);
-                        if (theClass != null) {
-                            dynClassMap.put(className, theClass);
+        if (!CompileJava.isDebug()) {
+            theClass = fileClassMap.get(className);
+            if (theClass == null) {
+                theClass = dynClassMap.get(className);
+                TmpJavaFileObject fileObject = (TmpJavaFileObject) fileObjectMap.get(className);
+                if (fileObject != null) {
+                    if (theClass == null) {
+                        DynamicClassLoader loader = getDynamicClassLoader(className, fileObject, false);
+                        try {
+                            theClass = loader.findClass(className);
+                            if (theClass != null) {
+                                dynClassMap.put(className, theClass);
+                            }
+
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
                         }
+                    } else if (theClass.getClassLoader() instanceof DynamicClassLoader &&
+                            !((DynamicClassLoader) theClass.getClassLoader()).getClassName().equals(className)
+                            ) {
+                        DynamicClassLoader loader = new DynamicClassLoader(fileObject, className);
+                        classLoaderMap.put(className, loader);
+                    }
+                }
+            }
 
+
+            if (theClass == null) {
+                theClass = EsbBeanFactory.findClass(className);
+            }
+
+
+            if (theClass == null) {
+                try {
+                    theClass = Class.forName(className);
+                } catch (ClassNotFoundException e1) {
+                    try {
+                        theClass = Thread.currentThread().getContextClassLoader().loadClass(className);
+                    } catch (ClassNotFoundException e2) {
+
+                    }
+                }
+            }
+
+            if (theClass == null) {
+                try {
+                    theClass = instance.getClass().getClassLoader().loadClass(className);
+                } catch (ClassNotFoundException e) {
+                    //e.printStackTrace();
+                }
+            }
+            if (System.currentTimeMillis() - start > 5) {
+                logger.info("end  instance.getClass().loadClass  ---end= " + className + "[" + className + "] times=" + (System.currentTimeMillis() - start));
+            }
+            if ((theClass == null || (theClass.getClassLoader() instanceof DynamicClassLoader)) && !disableClass.contains(className)) {
+                List<String> copyClassPath = new ArrayList<String>();
+                copyClassPath.addAll(contextClassPath);
+                for (String classPath : copyClassPath) {
+                    try {
+                        theClass = loadClassByFile(classPath, className);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
-                } else if (theClass.getClassLoader() instanceof DynamicClassLoader &&
-                        !((DynamicClassLoader) theClass.getClassLoader()).getClassName().equals(className)
-                        ) {
-                    DynamicClassLoader loader = new DynamicClassLoader(fileObject, className);
-                    classLoaderMap.put(className, loader);
+
+                    if (theClass != null) {
+                        break;
+                    }
                 }
             }
-        }
+            if (System.currentTimeMillis() - start > 5) {
+                logger.info("end  loadClassByFile ---end= " + className + "[" + className + "] times=" + (System.currentTimeMillis() - start));
+            }
+            if (theClass == null) {
+                theClass = EsbBeanFactory.findClass(className);
+            } else {
+                EsbBeanFactory.addClassCache(className, theClass);
+            }
 
-        if (theClass == null) {
-            theClass = EsbBeanFactory.findClass(className);
-        }
+            if (theClass == null) {
+                if (System.currentTimeMillis() - start > 5) {
+                    System.out.println("end EsbBeanFactory.findClass= " + className + " times=" + (System.currentTimeMillis() - start));
+                }
+                disableClass.add(className);
+                throw new ClassNotFoundException("class " + className + "  NotFound!");
+            } else {
+                disableClass.remove(className);
+            }
+        } else {
 
 
-        if (theClass == null) {
             try {
                 theClass = Class.forName(className);
             } catch (ClassNotFoundException e1) {
@@ -215,51 +369,17 @@ public final class ClassUtility {
 
                 }
             }
-        }
 
-        if (theClass == null) {
-            try {
-                theClass = instance.getClass().getClassLoader().loadClass(className);
-            } catch (ClassNotFoundException e) {
-                //e.printStackTrace();
-            }
-        }
-        if (System.currentTimeMillis() - start > 5) {
-            logger.info("end  instance.getClass().loadClass  ---end= " + className + "[" + className + "] times=" + (System.currentTimeMillis() - start));
-        }
-        if ((theClass == null || (theClass.getClassLoader() instanceof DynamicClassLoader)) && !disableClass.contains(className)) {
-            List<String> copyClassPath = new ArrayList<String>();
-            copyClassPath.addAll(contextClassPath);
-            for (String classPath : copyClassPath) {
+
+            if (theClass == null) {
                 try {
-                    theClass = loadClassByFile(classPath, className);
+                    theClass = instance.getClass().getClassLoader().loadClass(className);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                if (theClass != null) {
-                    break;
+                    //e.printStackTrace();
                 }
             }
         }
-        if (System.currentTimeMillis() - start > 5) {
-            logger.info("end  loadClassByFile ---end= " + className + "[" + className + "] times=" + (System.currentTimeMillis() - start));
-        }
-        if (theClass == null) {
-            theClass = EsbBeanFactory.findClass(className);
-        } else {
-            EsbBeanFactory.addClassCache(className, theClass);
-        }
 
-        if (theClass == null) {
-            if (System.currentTimeMillis() - start > 5) {
-                System.out.println("end EsbBeanFactory.findClass= " + className + " times=" + (System.currentTimeMillis() - start));
-            }
-            disableClass.add(className);
-            throw new ClassNotFoundException("class " + className + "  NotFound!");
-        } else {
-            disableClass.remove(className);
-        }
 
         return theClass;
         //  }
