@@ -16,6 +16,12 @@ package net.ooder.web;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.util.TypeUtils;
+import javassist.CtMethod;
+import javassist.Modifier;
+import javassist.NotFoundException;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.LocalVariableAttribute;
+import javassist.bytecode.MethodInfo;
 import net.ooder.annotation.*;
 import net.ooder.common.JDSConstants;
 import net.ooder.common.logging.Log;
@@ -26,12 +32,6 @@ import net.ooder.jds.core.esb.EsbUtil;
 import net.ooder.org.conf.OrgConstants;
 import net.ooder.web.util.AnnotationUtil;
 import net.ooder.web.util.JSONGenUtil;
-import javassist.CtMethod;
-import javassist.Modifier;
-import javassist.NotFoundException;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import ognl.OgnlContext;
 import ognl.OgnlException;
 import ognl.OgnlRuntime;
@@ -495,6 +495,9 @@ public class RequestMethodBean {
     public Object invok(OgnlContext onglContext, Map<String, Object> allParamsMap) throws ClassNotFoundException, OgnlException {
         Object object = null;
         long startTime = System.currentTimeMillis();
+        if (onglContext == null) {
+            onglContext = JDSActionContext.getActionContext().getOgnlContext();
+        }
         Object service = getService(onglContext, allParamsMap);
         Map<String, String> paramsMap = this.getParamsMap();
         Set<RequestParamBean> keySet = this.getParamSet();
