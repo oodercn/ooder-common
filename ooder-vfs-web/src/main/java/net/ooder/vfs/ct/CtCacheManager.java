@@ -93,7 +93,8 @@ public class CtCacheManager implements Serializable {
      * Initializes all caches with the correct size and expiration time.
      */
     private void initCache() {
-        cacheEnabled = true;
+
+
         if (cacheEnabled) {
 
             fileCache = CacheManagerFactory.createCache(VFSConstants.CONFIG_CTVFS_KEY, "fileCache", 10 * 1024 * 1024, 1000 * 60 * 60 * 24);
@@ -209,10 +210,9 @@ public class CtCacheManager implements Serializable {
 
                 hsqlfolderCache.remove(folder.getID());
                 hsqlfilePathCache.remove(path);
-
             }
         }
-
+        filePathCache.remove(path);
     }
 
 
@@ -520,11 +520,9 @@ public class CtCacheManager implements Serializable {
      */
     public Folder getFolderByPath(String path) throws JDSException {
         Folder folder = null;
-
         if (!path.endsWith("/")) {
             path = path + "/";
         }
-
         if (!cacheEnabled) {
             folder = getVFSDiskService().getFolderByPath(path).getData();
 

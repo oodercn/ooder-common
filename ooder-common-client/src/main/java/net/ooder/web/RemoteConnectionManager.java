@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 public class RemoteConnectionManager {
 
-    //默认允许连接服务的数�?
+    //默认允许连接服务
     private final static Integer defaultConnectionSize = 150;
 
     static Map<String, ExecutorService> connectionMap = new HashMap<String, ExecutorService>();
@@ -33,11 +33,10 @@ public class RemoteConnectionManager {
 
     public static synchronized void initConnection(String serviceId, Integer size) {
         if (size != null && size > 0) {
-            connectionSize.put(serviceId, size);
+            connectionSize.put(serviceId, size + 1);
         } else {
             connectionSize.put(serviceId, defaultConnectionSize);
         }
-
     }
 
 
@@ -53,6 +52,16 @@ public class RemoteConnectionManager {
 
     }
 
+    public static ExecutorService createConntctionService(String serviceId) {
+        ExecutorService service = connectionMap.get(serviceId);
+        if (service != null && (!service.isShutdown() || !service.isTerminated())) {
+            initConnection(serviceId + 1, connectionSize.get(serviceId));
+            service = getConntctionService(serviceId + 1);
+        } else {
+            service = getConntctionService(serviceId);
+        }
+        return service;
+    }
 
     public static ExecutorService getConntctionService(String serviceId) {
         synchronized (serviceId) {

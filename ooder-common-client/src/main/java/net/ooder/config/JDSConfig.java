@@ -445,10 +445,4 @@ public class JDSConfig {
         return classPath;
     }
 
-    public static void main(String[] args) {
-        //  File engineConfigFile = new File(new File("c:/test1/"), "itjds_iot_webclient.jar");
-        File engineConfigFile = new File("E:");
-
-        System.out.println(engineConfigFile.getParentFile());
-    }
 }
