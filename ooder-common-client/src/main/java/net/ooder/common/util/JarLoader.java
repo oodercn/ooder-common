@@ -33,10 +33,6 @@ public class JarLoader extends ClassLoader {
 
     private static Map<String, JarEntry> javaSourceMaps = new HashMap<String, JarEntry>();
 
-    // public JarFile getJarFile() {
-    // return jarFile;
-    // }
-    //
     private void setJarFile(JarFile jarFile) {
         this.jarFile = jarFile;
     }
@@ -105,8 +101,6 @@ public class JarLoader extends ClassLoader {
         String tmpName = packageName.replace('.', '/');
         JarEntry entry = null;
         Enumeration<JarEntry> es = jarFile.entries();
-
-
         Set<Class<?>> classes = new HashSet<>();
         while (es.hasMoreElements()) {
             entry = es.nextElement();

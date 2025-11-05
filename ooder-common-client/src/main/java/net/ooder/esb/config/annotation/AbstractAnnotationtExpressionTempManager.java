@@ -14,6 +14,8 @@
  */
 package net.ooder.esb.config.annotation;
 
+import javassist.ClassPool;
+import javassist.NotFoundException;
 import net.ooder.annotation.ClassMappingAnnotation;
 import net.ooder.annotation.EsbBeanAnnotation;
 import net.ooder.common.EsbFlowType;
@@ -32,8 +34,6 @@ import net.ooder.esb.config.manager.*;
 import net.ooder.web.ConstructorBean;
 import net.ooder.web.RequestMethodBean;
 import net.ooder.web.RequestParamBean;
-import javassist.ClassPool;
-import javassist.NotFoundException;
 import net.sf.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +52,7 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractAnnotationtExpressionTempManager implements ServiceConfigManager {
     private static final Log logger = LogFactory.getLog(Constants.CONFIG_KEY, AbstractAnnotationtExpressionTempManager.class);
+
     private static String OS = System.getProperty("os.name").toLowerCase();
 
     private static final Logger log = LoggerFactory.getLogger(AbstractAnnotationtExpressionTempManager.class);
@@ -432,11 +433,14 @@ public abstract class AbstractAnnotationtExpressionTempManager implements Servic
             ClassPool pool = ClassPool.getDefault();
             try {
                 pool.appendClassPath(file.getPath());
-            } catch (NotFoundException e) {
-                e.printStackTrace();
+            } catch (NotFoundException e) {e.printStackTrace();
+
             }
         }
-
+        Set<Class<?>> classSet = loader.getAllClassByPackage();
+        for (Class clazz : classSet) {
+            EsbBeanFactory.getClassLoadManager().put(clazz.getName(), loader);
+        }
 
         return loader.getAllClassByPackage();
     }

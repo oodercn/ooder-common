@@ -52,14 +52,12 @@ public class EsbBeanFactory {
     public Map<String, List<? extends ServiceBean>> configListMap = new LinkedHashMap<String, List<? extends ServiceBean>>();
     private Map<String, List<? extends ServiceBean>> esbBeanKeyMap = new LinkedHashMap<String, List<? extends ServiceBean>>();
     public List<ServiceBean> expressionTempBeanList = new ArrayList<ServiceBean>();
-
     public Map<Class, List<ServiceBean>> classBeansMap = new LinkedHashMap<Class, List<ServiceBean>>();
-
     public List<EsbBean> esbBeanList = new ArrayList<EsbBean>();
     public EsbBeanConfig esbBeanConfig;
     private static Map<String, Class<?>> allClass = new ConcurrentHashMap<>();
     private static EsbBeanFactory esbBeanFantory;
-    private Map<String, JarLoader> classLoaderManager = new HashMap<String, JarLoader>();
+    private static Map<String, JarLoader> classLoaderManager = new HashMap<String, JarLoader>();
     public static final String THREAD_LOCK = "Thread Lock";
     private Map<Class, ServiceBean> classMap = new HashMap<Class, ServiceBean>();
     private static Map<String, JarLoader> jarLoadManager = new HashMap<String, JarLoader>();
@@ -153,6 +151,10 @@ public class EsbBeanFactory {
 
     public static Map<String, JarLoader> getJarLoadManager() {
         return jarLoadManager;
+    }
+
+    public static Map<String, JarLoader> getClassLoadManager() {
+        return classLoaderManager;
     }
 
     public synchronized void reLoad() {
