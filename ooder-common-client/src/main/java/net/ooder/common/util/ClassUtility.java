@@ -137,6 +137,19 @@
  * <p>
  * License: MIT License
  * </p>
+ * <p>
+ * $RCSfile: ClassUtility.java,v $
+ * $Revision: 1.0 $
+ * $Date: 2025/08/25 $
+ * <p>
+ * Copyright (c) 2025 ooder.net
+ * </p>
+ * <p>
+ * Company: ooder.net
+ * </p>
+ * <p>
+ * License: MIT License
+ * </p>
  */
 /**
  * $RCSfile: ClassUtility.java,v $
@@ -238,6 +251,17 @@ public final class ClassUtility {
             return loader;
         }
     }
+
+    public static Set<Class> checkBase(Set<Class> sourceSet) {
+        Set<Class> checkClassSet = new HashSet<>();
+        for (Class viewClass : sourceSet) {
+            if (viewClass != null && !viewClass.getName().startsWith("java.lang")) {
+                checkClassSet.add(viewClass);
+            }
+        }
+        return checkClassSet;
+    }
+
 
     /**
      * Loads the class with the specified name.
