@@ -312,7 +312,9 @@ public abstract class AbstractAnnotationtExpressionTempManager implements Servic
                         String fileName = absolutePath + StringUtility.replace(path.substring(1, path.length()), ".", File.separator);
                         file = new File(fileName);
                     }
-                    toFileNames(file);
+                    if (file.exists() && file.listFiles() != null) {
+                        toFileNames(file);
+                    }
                 }
             } catch (Exception e1) {
                 throw new JDSBusException(pathArr[k] + " load Err  context=" + JDSConfig.getAbsolutePath("", this.getClass()), e1);
@@ -433,7 +435,8 @@ public abstract class AbstractAnnotationtExpressionTempManager implements Servic
             ClassPool pool = ClassPool.getDefault();
             try {
                 pool.appendClassPath(file.getPath());
-            } catch (NotFoundException e) {e.printStackTrace();
+            } catch (NotFoundException e) {
+                e.printStackTrace();
 
             }
         }

@@ -53,7 +53,7 @@ public class SpringPlugs implements ResourceLoaderAware, ApplicationContextAware
                         Class<?> clazz;
                         try {
                             clazz = Class.forName(className);
-                            if (AnnotationUtil.getClassAnnotation(clazz,RequestMapping.class) != null && AnnotationUtil.getClassAnnotation(clazz,Controller.class) != null) {
+                            if (AnnotationUtil.getClassAnnotation(clazz, RequestMapping.class) != null && AnnotationUtil.getClassAnnotation(clazz, Controller.class) != null) {
                                 set.add(clazz);
                             }
                         } catch (Throwable e) {
