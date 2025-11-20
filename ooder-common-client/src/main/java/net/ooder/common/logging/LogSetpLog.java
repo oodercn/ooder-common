@@ -19,6 +19,7 @@ import net.ooder.common.JDSConstants;
 import java.net.URL;
 
 public class LogSetpLog implements ChromeProxy {
+
     private static final Log logger = LogFactory.getLog(JDSConstants.CONFIG_KEY, LogSetpLog.class);
 
     @Override

@@ -78,7 +78,6 @@ public class RemoteResultModel<T> extends ResultModel<T> {
             public void failed(final Exception ex) {
                 ex.printStackTrace();
             }
-
             public void completed(final Content content) {
                 if (!InputStream.class.isAssignableFrom(iClass)) {
                     String json = content.asString();

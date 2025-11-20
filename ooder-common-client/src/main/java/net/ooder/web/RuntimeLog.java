@@ -25,16 +25,9 @@ public class RuntimeLog implements Comparable<RuntimeLog>, Cacheable {
     MsgStatus status = MsgStatus.NORMAL;
     String token;
     String sessionId;
-
-
     long startTime;
-
-
     long arrivedTime;
-
     long endTime;
-
-
     long exetime;
     long time;
     String requestJson;
