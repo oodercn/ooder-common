@@ -15,6 +15,7 @@
 package net.ooder.common.logging;
 
 import net.ooder.common.JDSConstants;
+import net.ooder.web.TaskLogFactory;
 
 import java.net.URL;
 
